@@ -80,6 +80,42 @@
 
 
     <script>
+        const nav = document.querySelector('.top')
+        const lis = document.querySelectorAll('.cool>li')
+        const dropdownBackground = document.querySelector('.dropdownBackground')
+
+        function enterHandler() {
+            this.classList.add('trigger-enter')
+            setTimeout(() => this.classList.contains('trigger-enter') && this.classList.add('trigger-enter-active'), 150);
+            dropdownBackground.classList.add('open');
+
+
+            const dropdown = this.querySelector('.dropdown')
+                // console.log(dropdown);
+            const navRect = nav.getBoundingClientRect();
+            const dropdownRect = dropdown.getBoundingClientRect()
+
+            const coords = {
+                height: dropdownRect.height,
+                width: dropdownRect.width,
+                top: dropdownRect.top - navRect.top,
+                left: dropdownRect.left - navRect.left
+            }
+            dropdownBackground.style.setProperty('width', `${coords.width}px`)
+            dropdownBackground.style.setProperty('height', `${coords.height}px`)
+            dropdownBackground.style.setProperty('transform', `translate(${coords.left}px,${coords.top}px)`)
+
+            // console.log(navRect);
+            // console.log(dropdownRect);
+        }
+
+        function leaveHandler() {
+            this.classList.remove('trigger-enter', 'trigger-enter-active')
+            dropdownBackground.classList.remove('open')
+        }
+
+        lis.forEach(li => li.addEventListener('mouseenter', enterHandler))
+        lis.forEach(li => li.addEventListener('mouseleave', leaveHandler))
     </script>
 
 </body>
